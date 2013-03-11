@@ -1,7 +1,19 @@
-import java.util.*;
-import JaCoP.constraints.*;
-import JaCoP.search.*;
-import JaCoP.core.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import structure.Pair;
+import JaCoP.constraints.Alldifferent;
+import JaCoP.constraints.XplusCeqZ;
+import JaCoP.core.IntDomain;
+import JaCoP.core.IntVar;
+import JaCoP.core.Store;
+import JaCoP.core.ValueEnumeration;
+import JaCoP.search.DepthFirstSearch;
+import JaCoP.search.IndomainMedian;
+import JaCoP.search.SelectChoicePoint;
+import JaCoP.search.SimpleSelect;
+import JaCoP.search.SmallestDomain;
 
 public class ChessQueens {
 	private Store store;
@@ -17,7 +29,7 @@ public class ChessQueens {
 			Q[i] = new IntVar(store,"Q" + i,0,n-1);
 			y[i] = new IntVar(store,"y" + i,-i,n-1-i);
 			z[i] = new IntVar(store,"z" + i,i,n-1+i);
-			
+			System.out.println("y[i] : " + y[i]);
 			store.impose(new XplusCeqZ(Q[i],i,z[i]));
 			store.impose(new XplusCeqZ(y[i],i,Q[i]));
 		}
@@ -98,14 +110,33 @@ public class ChessQueens {
 		System.out.print("}");
 	}
 	
+	public boolean stopConditions(int k) {
+		return k < 15;
+	}
+	
 	// Main algorithm... to be completed
-	public boolean tabuSearch() {
+	public boolean tabuSearch(int sizeOfTabuMoves) {
 		
 		// Generate a first solution
 		IntDomain[] domains = getDomains();
 		int[] sol = generateSolution(domains);
+		System.out.println("First generated solution");
+		printSolution(sol);
+		//State that correspond to the best Solution known
+		int[] bestSol = sol;
 		
-		//printSolution(sol);
+		//TODO: Créer nouvelle structure pour gérér la taille maximal de la liste.
+		List<Pair> tabuMoves = new ArrayList<Pair>(sizeOfTabuMoves);
+		
+		//iteration number
+		int k = 0;
+		
+		while(stopConditions(k)) {
+			k++;
+			
+		}
+		
+		
 		
 		// Calculate the cost of the curent solution
 		int cost = fitness(sol);
@@ -144,12 +175,12 @@ public class ChessQueens {
 	}
 
 	public static void main(String[] args) {
-		final int n = 10;
+		final int n = 4;
 		ChessQueens model = new ChessQueens(n);
 
-		// boolean result = model.completeSearch();
+		 boolean result = model.completeSearch();
 		
-		boolean result = model.tabuSearch();
+//		boolean result = model.tabuSearch();
 		
 	}
 
