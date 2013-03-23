@@ -2,12 +2,12 @@ package structure;
 
 public class Pair {
 
-	public int previous;
-	public int next;
+	public int x;
+	public int y;
 	
-	public Pair(int prev, int next) {
-		previous = prev;
-		this.next = next;
+	public Pair(int x, int y) {
+		this.x = x;
+		this.y = y;
 	}
 	
 }

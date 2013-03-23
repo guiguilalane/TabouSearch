@@ -2,14 +2,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import structure.Neighborhoods;
 import structure.Pair;
 import JaCoP.constraints.Alldifferent;
+import JaCoP.constraints.PrimitiveConstraint;
 import JaCoP.constraints.XplusCeqZ;
 import JaCoP.core.IntDomain;
 import JaCoP.core.IntVar;
 import JaCoP.core.Store;
 import JaCoP.core.ValueEnumeration;
 import JaCoP.search.DepthFirstSearch;
+import JaCoP.search.ExitChildListener;
 import JaCoP.search.IndomainMedian;
 import JaCoP.search.SelectChoicePoint;
 import JaCoP.search.SimpleSelect;
@@ -22,6 +25,7 @@ public class ChessQueens {
 	public ChessQueens(int n) {
 		store = new Store();
 		Q = new IntVar[n];
+
 		IntVar[] y = new IntVar[n];
 		IntVar[] z = new IntVar[n];
 
@@ -121,25 +125,33 @@ public class ChessQueens {
 		IntDomain[] domains = getDomains();
 		int[] sol = generateSolution(domains);
 		System.out.println("First generated solution");
-		printSolution(sol);
+//		printSolution(sol);
 		//State that correspond to the best Solution known
 		int[] bestSol = sol;
 		
-		//TODO: Créer nouvelle structure pour gérér la taille maximal de la liste.
+		//TODO: Créer nouvelle structure pour gérer la taille maximal de la liste.
 		List<Pair> tabuMoves = new ArrayList<Pair>(sizeOfTabuMoves);
 		
 		//iteration number
 		int k = 0;
-		
+		Neighborhoods subsets;
 		while(stopConditions(k)) {
 			k++;
+			subsets = new Neighborhoods(domains, sol, tabuMoves);//candidate solutions
 			
+			int[] bestCandidate = subsets.calculateBestCandidate();//best candidate solution
+			sol = bestCandidate; //update current solution
+			if(Neighborhoods.fitness(bestCandidate) < Neighborhoods.fitness(bestSol)) {
+				bestSol = bestCandidate;
+			}
+			//TODO : update tabu list an aspiration condition
 		}
 		
-		
+		Neighborhoods.printSolution(bestSol);
+		System.out.println("cout : " + Neighborhoods.fitness(bestSol));
 		
 		// Calculate the cost of the curent solution
-		int cost = fitness(sol);
+//		int cost = fitness(sol);
 				
 		//System.out.println("\nfitness : " + cost);
 		
@@ -159,6 +171,9 @@ public class ChessQueens {
 				new SimpleSelect<IntVar>(Q,
 										 new SmallestDomain<IntVar>(),
 										 new IndomainMedian<IntVar>());
+		
+		
+		
 
 		boolean result = search.labeling(store, select);
 
@@ -175,12 +190,12 @@ public class ChessQueens {
 	}
 
 	public static void main(String[] args) {
-		final int n = 4;
+		final int n = 5;
 		ChessQueens model = new ChessQueens(n);
 
-		 boolean result = model.completeSearch();
+//		 boolean result = model.completeSearch();
 		
-//		boolean result = model.tabuSearch();
+		boolean result = model.tabuSearch(5);
 		
 	}
 
