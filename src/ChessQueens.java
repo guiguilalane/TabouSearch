@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 import structure.Neighborhoods;
@@ -52,22 +53,55 @@ public class ChessQueens {
 	
 	// Generate randomly a solution within the domains
 	//TODO: rewrite this method
+//	public int[] generateSolution(IntDomain[] domains) {
+//		Random rand = new Random();
+//		int[] solution = new int[domains.length];
+//		for (int i=0; i<domains.length; ++i) {
+//			ValueEnumeration values = domains[i].valueEnumeration();
+//			int r = rand.nextInt(domains[i].getSize());   // 0 .. getSize()-1
+//			for (int j=0; j<=r; ++j) {
+//				
+//				solution[i] = values.nextElement();  // only the r-th is relevant
+//			}
+//			System.out.println("\t\tSolution : " + solution[i]);
+//		}
+//		return solution;
+//	}
+	
+	// Generate randomly a solution within the domains
+	//TODO: rewrite this method
 	public int[] generateSolution(IntDomain[] domains) {
 		Random rand = new Random();
 		int[] solution = new int[domains.length];
-		
+		ArrayList<Integer> usedSol = new ArrayList<Integer>();
 		for (int i=0; i<domains.length; ++i) {
-			ValueEnumeration values = domains[i].valueEnumeration();
-			int r = rand.nextInt(domains[i].getSize());   // 0 .. getSize()-1
-
-			for (int j=0; j<=r; ++j) {
-				solution[i] = values.nextElement();  // only the r-th is relevant
+			IntDomain d = (IntDomain)domains[i].clone();
+			if(!usedSol.isEmpty()) {
+				d = removeValueFromDomain(d, usedSol);
 			}
+			ValueEnumeration values = d.valueEnumeration();
+			int r = rand.nextInt(d.getSize());   // 0 .. getSize()-1
+			System.out.println("r : " + r);
+			int v = -1;
+			for (int j=0; j<=r; ++j) {
+				v = values.nextElement();  // only the r-th is relevant
+				System.out.println("\tvalues : " + v);
+				solution[i] = v;
+			}
+			usedSol.add(v);
+			System.out.println("\t\tSolution : " + solution[i]);
 		}
-		
 		return solution;
 	}
 	
+	private IntDomain removeValueFromDomain(IntDomain d,
+			ArrayList<Integer> usedSol) {
+		for(Integer i: usedSol)	{
+			d.subtractAdapt(i);
+		}
+		return d;
+	}
+
 	// Cost or fitness of an alldifferent constraint
 	public int costAllDifferent(int[] sol) {
 		int n = 0;
