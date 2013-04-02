@@ -10,4 +10,8 @@ public class Pair {
 		this.y = y;
 	}
 	
+	public String toString() {
+		return "{ligne : " + x + ", colonne : " + y + "}";
+	}
+	
 }

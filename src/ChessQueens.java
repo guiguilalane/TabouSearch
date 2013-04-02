@@ -1,18 +1,15 @@
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import structure.Neighborhoods;
 import structure.Pair;
+import structure.TabuMoves;
 import JaCoP.constraints.Alldifferent;
-import JaCoP.constraints.PrimitiveConstraint;
 import JaCoP.constraints.XplusCeqZ;
 import JaCoP.core.IntDomain;
 import JaCoP.core.IntVar;
 import JaCoP.core.Store;
 import JaCoP.core.ValueEnumeration;
 import JaCoP.search.DepthFirstSearch;
-import JaCoP.search.ExitChildListener;
 import JaCoP.search.IndomainMedian;
 import JaCoP.search.SelectChoicePoint;
 import JaCoP.search.SimpleSelect;
@@ -54,6 +51,7 @@ public class ChessQueens {
 	}
 	
 	// Generate randomly a solution within the domains
+	//TODO: rewrite this method
 	public int[] generateSolution(IntDomain[] domains) {
 		Random rand = new Random();
 		int[] solution = new int[domains.length];
@@ -115,7 +113,7 @@ public class ChessQueens {
 	}
 	
 	public boolean stopConditions(int k) {
-		return k < 15;
+		return k < 100;
 	}
 	
 	// Main algorithm... to be completed
@@ -125,26 +123,40 @@ public class ChessQueens {
 		IntDomain[] domains = getDomains();
 		int[] sol = generateSolution(domains);
 		System.out.println("First generated solution");
-//		printSolution(sol);
+		printSolution(sol);
+		System.out.println();
 		//State that correspond to the best Solution known
 		int[] bestSol = sol;
 		
 		//TODO: Créer nouvelle structure pour gérer la taille maximal de la liste.
-		List<Pair> tabuMoves = new ArrayList<Pair>(sizeOfTabuMoves);
+//		List<Pair> tabuMoves = new ArrayList<Pair>(sizeOfTabuMoves);
+		TabuMoves tabuMoves = new TabuMoves(sizeOfTabuMoves);
 		
 		//iteration number
 		int k = 0;
 		Neighborhoods subsets;
-		while(stopConditions(k)) {
-			k++;
-			subsets = new Neighborhoods(domains, sol, tabuMoves);//candidate solutions
+		Pair forbiddenMove = null;
+		while(stopConditions(k) && fitness(bestSol) != 0) {
 			
-			int[] bestCandidate = subsets.calculateBestCandidate();//best candidate solution
+			subsets = new Neighborhoods(domains, sol, tabuMoves.getTabuMoves());//candidate solutions
+			forbiddenMove = new Pair(0,0);
+			int[] bestCandidate = subsets.calculateBestCandidate(forbiddenMove);//best candidate solution
 			sol = bestCandidate; //update current solution
 			if(Neighborhoods.fitness(bestCandidate) < Neighborhoods.fitness(bestSol)) {
 				bestSol = bestCandidate;
 			}
+//			System.out.println(forbiddenMove);
+			System.out.println("k : " + k + ", sizeOfTabuMoves : " + sizeOfTabuMoves + ", k%sizeOfTabuMove = " + k%sizeOfTabuMoves);
+			System.out.println(forbiddenMove);
+			tabuMoves.add(k, forbiddenMove);
+//			tabuMoves.add(k%sizeOfTabuMoves, forbiddenMove);
+//			Pair p = tabuMoves.getTabuMove(k);
+			System.out.println(tabuMoves);
+//			System.out.println(p);
+			System.out.println("cout : " + Neighborhoods.fitness(bestSol));
+			System.out.println("**************************************");
 			//TODO : update tabu list an aspiration condition
+			k++;
 		}
 		
 		Neighborhoods.printSolution(bestSol);
@@ -190,12 +202,12 @@ public class ChessQueens {
 	}
 
 	public static void main(String[] args) {
-		final int n = 5;
+		final int n = 100;
 		ChessQueens model = new ChessQueens(n);
 
 //		 boolean result = model.completeSearch();
 		
-		boolean result = model.tabuSearch(5);
+		boolean result = model.tabuSearch(25);
 		
 	}
 

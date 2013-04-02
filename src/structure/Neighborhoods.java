@@ -15,11 +15,11 @@ public class Neighborhoods {
 		sol = cloneSolution(solution);
 		//parcourir les valeurs de la solutions
 		Integer[][] sols = new Integer[sol.length][sol.length-1];
-		for(int i = 0; i < sol.length; ++i) {
+		for(int i = 0; i < sol.length; ++i) { //i = ligne
 			//pour chaque valeur de la solution courante, il y a n-1 autre solution
-			int k = 0;
+			int k = 0; // colonne
 			//pour chaques valeurs des autres solutions, parcourir le domaine possible
-			for(int j = domains[i].min(); j <= domains[i].max(); j++) {
+			for(int j = domains[i].min(); j <= domains[i].max(); j++) { //j valeur du domaine de xi
 				//vérifier que la valeur courante (j) n'est pas la solution
 				//auquel cas l'ajouter dans le tableau de solution
 				if(j != sol[i]) {
@@ -54,9 +54,14 @@ public class Neighborhoods {
 				if(!isTabuMove(tabuMoves, i, sols[i][j])) {
 					subsets.add(temp);
 				}
+//				else {
+//					System.out.println("-------------------------");
+//					printSolution(fromtabInteger(temp));
+//					System.out.println(fitness(fromtabInteger(temp)));
+//					System.out.println("-------------------------");
+//				}
 			}
 		}
-		//TODO: calculate all differents moves
 	}
 	
 	private int[] cloneSolution(int[] toClone) {
@@ -82,6 +87,10 @@ public class Neighborhoods {
 		while(ip.hasNext() && !res) {
 			p = ip.next();
 			res = res || (p.x == x && p.y == y);
+			if(res){//TODO: ASUP
+				System.out.println("is tabu? : " + res);
+				System.out.println(p);
+			}
 		}
 		return res;
 	}
@@ -96,17 +105,40 @@ public class Neighborhoods {
 		System.out.println("}");
 	}	
 	
-	public int[] calculateBestCandidate() {
+	public int[] calculateBestCandidate(Pair tabuMove) {
 		int[] bestCandidate = new int[subsets.get(0).length];
 		int bestCost = Integer.MAX_VALUE;
-		for(Integer[] i: subsets) {
-			int[] current = fromtabInteger(i);
+		int bestMove = 0;
+//		System.out.println("********************");
+		for(int i = 0; i < subsets.size(); ++i){
+			int[] current = fromtabInteger(subsets.get(i));
+//			printSolution(current);
 			int currentcost = fitness(current);
 			if(currentcost < bestCost) {
 				bestCandidate = current;
 				bestCost = currentcost;
+				bestMove = i;
 			}
 		}
+//		System.out.println();
+//		printSolution(bestCandidate);
+//		printSolution(fromtabInteger(subsets.get(bestMove)));
+		
+		
+		int ligne = (bestMove+1)/(bestCandidate.length);
+//		System.out.println("ligne : " + ligne);
+		int colonne = subsets.get(bestMove)[ligne];
+//		System.out.println("colone : " + subsets.get(bestMove)[ligne]);
+		tabuMove.x = ligne;
+		tabuMove.y = colonne;
+//		for(Integer[] i: subsets) {
+//			int[] current = fromtabInteger(i);
+//			int currentcost = fitness(current);
+//			if(currentcost < bestCost) {
+//				bestCandidate = current;
+//				bestCost = currentcost;
+//			}
+//		}
 		return bestCandidate;
 	}
 	
