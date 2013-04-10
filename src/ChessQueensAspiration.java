@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-import structure.Neighborhoods;
+import structure.NeighborhoodsAspiration;
 import structure.Pair;
 import structure.TabuMoves;
 import JaCoP.constraints.Alldifferent;
@@ -16,13 +16,11 @@ import JaCoP.search.SelectChoicePoint;
 import JaCoP.search.SimpleSelect;
 import JaCoP.search.SmallestDomain;
 
-
-//TODO: utiliser la librairie Javaplot
-public class ChessQueens {
+public class ChessQueensAspiration {
 	private Store store;
 	private IntVar[] Q;		// main variables: Q[i] represents the column of the queen on the i-th row 
 	
-	public ChessQueens(int n) {
+	public ChessQueensAspiration(int n) {
 		store = new Store();
 		Q = new IntVar[n];
 
@@ -54,43 +52,24 @@ public class ChessQueens {
 	}
 	
 	// Generate randomly a solution within the domains
-	//TODO: rewrite this method
-//	public int[] generateSolution(IntDomain[] domains) {
-//		Random rand = new Random();
-//		int[] solution = new int[domains.length];
-//		for (int i=0; i<domains.length; ++i) {
-//			ValueEnumeration values = domains[i].valueEnumeration();
-//			int r = rand.nextInt(domains[i].getSize());   // 0 .. getSize()-1
-//			for (int j=0; j<=r; ++j) {
-//				
-//				solution[i] = values.nextElement();  // only the r-th is relevant
-//			}
-//			System.out.println("\t\tSolution : " + solution[i]);
-//		}
-//		return solution;
-//	}
-	
-	// Generate randomly a solution within the domains
 	public int[] generateSolution(IntDomain[] domains) {
 		Random rand = new Random();
 		int[] solution = new int[domains.length];
 		ArrayList<Integer> usedSol = new ArrayList<Integer>();
 		for (int i=0; i<domains.length; ++i) {
 			IntDomain d = (IntDomain)domains[i].clone();
-			if(!usedSol.isEmpty()) { //lorsqu'un valeur est affectée à une reine, cette valeur est retirée du domaine des reines suivantes
+			if(!usedSol.isEmpty()) { 
+				//lorsqu'un valeur est affectée à une reine, cette valeur est retirée du domaine des reines suivantes
 				d = removeValueFromDomain(d, usedSol);
 			}
 			ValueEnumeration values = d.valueEnumeration();
 			int r = rand.nextInt(d.getSize());   // 0 .. getSize()-1
-//			System.out.println("r : " + r);
 			int v = -1;
 			for (int j=0; j<=r; ++j) {
 				v = values.nextElement();  // only the r-th is relevant
-//				System.out.println("\tvalues : " + v);
 				solution[i] = v;
 			}
 			usedSol.add(v);
-//			System.out.println("\t\tSolution : " + solution[i]);
 		}
 		return solution;
 	}
@@ -114,26 +93,24 @@ public class ChessQueens {
 		IntDomain[] domains = getDomains();
 		int[] sol = generateSolution(domains);
 		System.out.println("First generated solution");
-		Neighborhoods.printSolution(sol);
+		NeighborhoodsAspiration.printSolution(sol);
 		System.out.println();
 		//State that correspond to the best Solution known
 		int[] bestSol = sol;
 		
-		//TODO: Créer nouvelle structure pour gérer la taille maximal de la liste.
-//		List<Pair> tabuMoves = new ArrayList<Pair>(sizeOfTabuMoves);
 		TabuMoves tabuMoves = new TabuMoves(sizeOfTabuMoves);
 		
 		//iteration number
 		int k = 0;
-		Neighborhoods subsets;
+		NeighborhoodsAspiration subsets;
 		Pair forbiddenMove = null;
-		while(stopConditions(k) && Neighborhoods.fitness(bestSol) != 0) {
+		while(stopConditions(k) && NeighborhoodsAspiration.fitness(bestSol) != 0) {
 			
-			subsets = new Neighborhoods(domains, sol, tabuMoves.getTabuMoves());//candidate solutions
+			subsets = new NeighborhoodsAspiration(domains, sol, tabuMoves.getTabuMoves());//candidate solutions
 			forbiddenMove = new Pair(0,0);
 			int[] bestCandidate = subsets.calculateBestCandidate(forbiddenMove);//best candidate solution
 			sol = bestCandidate; //update current solution
-			if(Neighborhoods.fitness(bestCandidate) < Neighborhoods.fitness(bestSol)) {
+			if(NeighborhoodsAspiration.fitness(bestCandidate) < NeighborhoodsAspiration.fitness(bestSol)) {
 				bestSol = bestCandidate;
 			}
 //			System.out.println(forbiddenMove);
@@ -144,21 +121,14 @@ public class ChessQueens {
 //			Pair p = tabuMoves.getTabuMove(k);
 			System.out.println(tabuMoves);
 //			System.out.println(p);
-			System.out.println("cout : " + Neighborhoods.fitness(bestSol));
+			System.out.println("cout : " + NeighborhoodsAspiration.fitness(bestSol));
 			System.out.println("**************************************");
 			//TODO : update tabu list an aspiration condition
 			k++;
 		}
 		
-		Neighborhoods.printSolution(bestSol);
-		System.out.println("cout : " + Neighborhoods.fitness(bestSol));
-		
-		// Calculate the cost of the curent solution
-//		int cost = fitness(sol);
-				
-		//System.out.println("\nfitness : " + cost);
-		
-		// ...
+		NeighborhoodsAspiration.printSolution(bestSol);
+		System.out.println("cout : " + NeighborhoodsAspiration.fitness(bestSol));
 		
 		return true;
 	}
@@ -194,7 +164,7 @@ public class ChessQueens {
 
 	public static void main(String[] args) {
 		final int n = 100;
-		ChessQueens model = new ChessQueens(n);
+		ChessQueensAspiration model = new ChessQueensAspiration(n);
 
 //		 boolean result = model.completeSearch();
 		

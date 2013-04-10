@@ -6,11 +6,11 @@ import java.util.List;
 
 import JaCoP.core.IntDomain;
 
-public class Neighborhoods {
+public class NeighborhoodsAspiration {
 	private ArrayList<Integer[]> subsets;
 	private int[] sol;
 	
-	public Neighborhoods(IntDomain[] domains, int [] solution, List<Pair> tabuMoves) {
+	public NeighborhoodsAspiration(IntDomain[] domains, int [] solution, List<Pair> tabuMoves) {
 		subsets = new ArrayList<Integer[]>();
 		sol = cloneSolution(solution);
 		//parcourir les valeurs de la solutions
@@ -47,17 +47,19 @@ public class Neighborhoods {
 //			}
 //		}
 		Integer[] temp;
+		System.out.println("Cout de la solution courante : " + fitness(sol));
 		for(int i = 0; i < sols.length; ++i) {
 			for(int j = 0; j < sols[i].length; ++j) {
-				temp = copySol(sol);//initialisation de la variable temporaire
+				temp = copySol(sol);
 				temp[i] = sols[i][j];
+				subsets.add(temp);
 				if(!isTabuMove(tabuMoves, i, sols[i][j])) {
 					subsets.add(temp);
 				}
 //				else {
 //					System.out.println("-------------------------");
 //					printSolution(fromtabInteger(temp));
-//					System.out.println(fitness(fromtabInteger(temp)));
+//					System.out.println("cout de la solution tabou : " + fitness(fromtabInteger(temp)));
 //					System.out.println("-------------------------");
 //				}
 			}
