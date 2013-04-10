@@ -1,0 +1,166 @@
+%% Classe du document
+\documentclass[a4paper,10pt]{article}
+
+%% Francisation
+\usepackage[francais]{babel} % Indique que l'on utilise le francais
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc} % Indique que l'on utilise tout le clavier
+%\usepackage[latin1]{inputenc}
+
+%% Réglages généraux
+\usepackage[top=3cm, bottom=3cm, left=3cm, right=3cm]{geometry} % Taille de la feuille
+\usepackage{lastpage}
+
+%% Package pour le texte
+\usepackage{soul} % Souligner
+\usepackage{color} % Utilisation de couleurs
+\usepackage{hyperref} % Créer des liens et des signets
+\usepackage{eurosym}% Pour le symbole euro
+\usepackage{fancyhdr}% Entête et pied de page
+
+%% Package pour les tableaux
+\usepackage{multirow} % Colonnes multiples
+\usepackage{cellspace}
+\usepackage{array}
+
+%% Package pour les dessins
+\usepackage{pstricks}
+\usepackage{graphicx} % Importer des images
+\usepackage{pdftricks} % Pour utiliser avec pdfTex
+\usepackage{pst-pdf} % Pour utiliser avec pdfTex
+\usepackage{pst-node} % Pose de noeuds
+\usepackage{subfig}
+\usepackage{float}
+
+%% Package pour les maths
+\usepackage{amsmath} % Commandes essentielles
+\usepackage{amssymb} % Principaux symboles
+
+%% Package pour le code
+\usepackage{listings} % Utilisation de la couleur syntaxique des langages
+\usepackage{url}
+
+
+\usepackage[babel=true]{csquotes} % Permet les quotations (guillemets)
+\usepackage{tocvsec2}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+
+\usepackage{tikz}
+\usepackage{pdfpages}
+
+\usetikzlibrary{shapes} % A revoir
+
+%--------------------- Autres définitions ---------------------%
+
+% Propriété des liens
+\hypersetup{
+colorlinks = true, % Colorise les liens
+urlcolor = blue, % Couleur des hyperliens
+linkcolor = black, % Couleur des liens internes
+}
+
+\definecolor{grey}{rgb}{0.95,0.95,0.95}
+
+% Language Definitions for Turtle
+%TODO: a revoir avec les couleur de gedit
+\definecolor{olivegreen}{rgb}{0.2,0.8,0.5}
+\definecolor{grey2}{rgb}{0.5,0.5,0.5}
+\lstdefinelanguage{ttl}{
+sensitive=true,
+morecomment=[s][\color{grey2}]{@}{:},
+morecomment=[l][\color{olivegreen}]{\#},
+morecomment=[s][\color{red}]{<}{/>},
+morestring=[s][\color{olivegreen}]{<http://w}{\#>},
+morestring=[b][\color{blue}]{\"},
+}
+
+\lstset{%language = sql,
+basicstyle =\footnotesize,
+%numbers = left,
+numberstyle=\normalsize,
+numbersep=10pt,
+framexleftmargin=5mm,
+frame=lines,
+tabsize=4}
+
+%Definition de la commande pour retirer l'espace devant les ':'
+\makeatletter
+\@ifpackageloaded{babel}%
+        {\newcommand{\nospace}[1]{{\NoAutoSpaceBeforeFDP{}#1}}}%  % !! double {{}} pour cantonner l'effet à l'argument #1 !!
+        {\newcommand{\nospace}[1]{#1}}
+\makeatother
+
+\setcounter{tocdepth}{3}
+%\maxsecnumdepth{subsubsection} % Dernière section numérotée
+
+\newcommand{\paperPrototyping}{\emph{paper prototyping}}
+
+% Corps du document :
+\begin{document}
+
+% Définition des entêtes et pieds de page
+\fancyhead[LE,CE,RE,LO,CO,RO]{}
+\fancyfoot[LE,CE,RE,LO,CO,RO]{}
+\fancyhead[LO, LE]{Programmation par contraintes}
+\fancyhead[RO,RE]{2012/2013}
+\fancyfoot[LO,LE]{Université de \scshape{Nantes}}
+\fancyfoot[RO,RE]{Page \thepage \ sur \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%\maketitle
+\begin{titlepage}
+
+\vspace*{\fill}~
+\begin{center}
+{\large \textsc{Rapport de Projet}} \\
+\textsc{Tabu Search} \\
+\vspace{0.5cm}
+COUTABLE Guillaume, RULLIER Noémie \\
+\today
+\end{center}
+\vspace*{\fill}
+
+\vspace{\stretch{1}}
+\begin{center}
+\noindent 
+\includegraphics[height=2.5cm]{Images/universite.png}
+\end{center}
+\pagebreak
+\end{titlepage}
+
+\newpage
+\tableofcontents  
+
+% Introduction
+\newpage
+\pagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%  Introduction générale
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+L'objectif de ce TP fut de comprendre et d'implémenter l'algorithme TabuSearch en JaCoP.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% TS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Présentation du TabuSearch}
+%TODO
+Tabu search est une heuristique de la méthode de recherche locale. Elle consiste dans un premier temps à générer affectation totale des variables. Elle va ensuite effectuer le mouvement qui a un coût le moins important. Tabu search permet d'ajouter une contrainte, en effet on marque les $p$ derniers mouvements effectués qui seront interdits. On répète cette dernière opération jusqu'à que le coût soit égal à 0 ou jusqu'à ce que le nombre maximum d'essai soit atteint.
+%TODO --> Voir pour les aspirations
+
+\section{N-Queens avec TabuSearch et CompleteSearch comparaison}
+
+\section{Ajout des conditions d'aspirations}
+
+\section{TabuSearch algorithme avec procédure de redémarrage}
+
+\end{document}
+
+\begin{figure}[H]
+    \center
+    \includegraphics[width=2cm]{Images/menuFichier.png}
+    \caption{Le menu Fichier}
+\end{figure}
