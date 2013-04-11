@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  11 APR 2013 09:26
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  11 APR 2013 22:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -629,7 +629,7 @@ Package pdftricks Warning: ****************************************
 (pdftricks)                [psTricks support in PDF (CVR, ACL)]
 (pdftricks)                ****************************************.
 
-runsystem(touch /tmp/w18-test-2013411566)...disabled (restricted).
+runsystem(touch /tmp/w18-test-20134111362)...disabled (restricted).
 
 
 Package pdftricks Warning: ****************************************
@@ -1395,48 +1395,58 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 151.
 (/usr/local/texlive/2012/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
-Overfull \hbox (16.13095pt too wide) in paragraph at lines 161--178
-[][] 
+Underfull \hbox (badness 10000) in paragraph at lines 158--159
+
  []
 
+<Images/TS_ExecTime.png, id=49, 561.7788pt x 322.806pt>
+File: Images/TS_ExecTime.png Graphic file (type png)
 
-Overfull \hbox (16.13095pt too wide) in paragraph at lines 181--198
-[][] 
- []
+<use Images/TS_ExecTime.png>
+Package pdftex.def Info: Images/TS_ExecTime.png used on input line 218.
+(pdftex.def)             Requested size: 207.7052pt x 119.3526pt.
 
+<Images/TS_NumberErrors.png, id=50, 561.297pt x 320.397pt>
+File: Images/TS_NumberErrors.png Graphic file (type png)
 
+<use Images/TS_NumberErrors.png>
+Package pdftex.def Info: Images/TS_NumberErrors.png used on input line 219.
+(pdftex.def)             Requested size: 207.7052pt x 118.5597pt.
+ [2 <./Images/TS_ExecTime.png> <./Images/TS_NumberErrors.png>] 
 AED: lastpage setting LastPage
-[2]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 203.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 203.
+[3]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 237.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 237.
  (./Rapport_COUTABLE_RULLIER.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 203.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 203.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 237.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 237.
 Package rerunfilecheck Info: File `Rapport_COUTABLE_RULLIER.out' has not change
 d.
 (rerunfilecheck)             Checksum: 903F6BA0BE6A8E4F9A8F01B06E475952;361.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 203.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 237.
  ) 
 Here is how much of TeX's memory you used:
- 24311 strings out of 493488
- 423625 string characters out of 3141326
- 591258 words of memory out of 3000000
- 27124 multiletter control sequences out of 15000+200000
- 11532 words of font info for 31 fonts, out of 3000000 for 9000
+ 24337 strings out of 493488
+ 424112 string characters out of 3141326
+ 594258 words of memory out of 3000000
+ 27143 multiletter control sequences out of 15000+200000
+ 12296 words of font info for 32 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
- 61i,11n,96p,950b,461s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 61i,11n,96p,950b,537s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/local/texlive/2012/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
 </usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
-/usr/local/texlive/2012/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></u
-sr/local/texlive/2012/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr
-/local/texlive/2012/texmf-dist/fonts/type1/public/cm-super/sfcc1000.pfb></usr/l
-ocal/texlive/2012/texmf-dist/fonts/type1/public/cm-super/sfcc1200.pfb></usr/loc
-al/texlive/2012/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local
-/texlive/2012/texmf-dist/fonts/type1/public/cm-super/sfti1000.pfb>
-Output written on Rapport_COUTABLE_RULLIER.pdf (3 pages, 213171 bytes).
+/usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></u
+sr/local/texlive/2012/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr
+/local/texlive/2012/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/l
+ocal/texlive/2012/texmf-dist/fonts/type1/public/cm-super/sfcc1000.pfb></usr/loc
+al/texlive/2012/texmf-dist/fonts/type1/public/cm-super/sfcc1200.pfb></usr/local
+/texlive/2012/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/t
+exlive/2012/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/tex
+live/2012/texmf-dist/fonts/type1/public/cm-super/sfti1000.pfb>
+Output written on Rapport_COUTABLE_RULLIER.pdf (4 pages, 336987 bytes).
 PDF statistics:
- 85 PDF objects out of 1000 (max. 8388607)
- 70 compressed objects within 1 object stream
- 9 named destinations out of 1000 (max. 500000)
- 58 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 106 PDF objects out of 1000 (max. 8388607)
+ 84 compressed objects within 1 object stream
+ 13 named destinations out of 1000 (max. 500000)
+ 68 words of extra memory for PDF output out of 10000 (max. 10000000)
 
