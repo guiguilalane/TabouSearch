@@ -7,18 +7,21 @@ public class TabuMoves {
 	
 	private List<Pair> tabuMoves;
 	private int size;
+	private int currentPos;
 	
 	public TabuMoves(int size) {
 		this.size = size;
+		this.currentPos = 0;
 		tabuMoves = new ArrayList<Pair>(size);
 	}
 	
-	public void add(int pos, Pair p) {
-		if(pos >= size) {
-			tabuMoves.set(pos%size, p);
+	public void add(Pair p) {
+		if(currentPos >= size) {
+			tabuMoves.set(currentPos%size, p);
 		} else {
-			tabuMoves.add(pos%size, p);
+			tabuMoves.add(currentPos%size, p);
 		}
+		++currentPos;
 	}
 	
 	public List<Pair> getTabuMoves() {

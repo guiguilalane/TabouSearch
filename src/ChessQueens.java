@@ -138,7 +138,7 @@ public class ChessQueens {
 //			System.out.println(forbiddenMove);
 			System.out.println("k : " + k + ", sizeOfTabuMoves : " + sizeOfTabuMoves + ", k%sizeOfTabuMove = " + k%sizeOfTabuMoves);
 			System.out.println(forbiddenMove);
-			tabuMoves.add(k, forbiddenMove);
+			tabuMoves.add(forbiddenMove);
 //			tabuMoves.add(k%sizeOfTabuMoves, forbiddenMove);
 //			Pair p = tabuMoves.getTabuMove(k);
 			System.out.println(tabuMoves);

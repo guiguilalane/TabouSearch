@@ -5,9 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import JaCoP.core.IntDomain;
+import JaCoP.core.IntervalDomain;
 
 public class Neighborhoods {
-	private ArrayList<Integer[]> subsets;
+	public ArrayList<Integer[]> subsets;
 	private int[] sol;
 	
 	public Neighborhoods(IntDomain[] domains, int [] solution, List<Pair> tabuMoves) {
@@ -30,7 +31,11 @@ public class Neighborhoods {
 //				}
 //			}
 //		}
-		IntDomain[] cloneDomain = domains.clone();
+		IntDomain[] cloneDomain = new IntDomain[sol.length];
+		for (int i = 0; i< sol.length; ++i) {
+			cloneDomain[i] = new IntervalDomain(domains[i].min(), domains[i].max());
+		}
+		
 		for(int i = 0; i < sol.length; ++i) {
 			cloneDomain[i].subtractAdapt(sol[i]);
 		}
@@ -68,9 +73,20 @@ public class Neighborhoods {
 //				}
 			}
 		}
+		
+//		System.out.println("deb Affichage");
+//		System.out.print("[");
+//		for(Integer[] is: subsets) {
+//			System.out.print("[");
+//			for(Integer i: is) {
+//				System.out.print(i + ", ");
+//			}
+//			System.out.print("], ");
+//		}
+//		System.out.println("]");
 	}
 	
-	private int[] cloneSolution(int[] toClone) {
+	public static int[] cloneSolution(int[] toClone) {
 		int[] res = new int[toClone.length];
 		for(int i = 0; i < toClone.length; ++i) {
 			res[i] = toClone[i];
@@ -93,10 +109,6 @@ public class Neighborhoods {
 		while(ip.hasNext() && !res) {
 			p = ip.next();
 			res = res || (p.x == x && p.y == y);
-			if(res){//TODO: ASUP
-				System.out.println("is tabu? : " + res);
-				System.out.println(p);
-			}
 		}
 		return res;
 	}
