@@ -6,35 +6,29 @@ import java.util.List;
 
 import JaCoP.core.IntDomain;
 
-public class Neighborhoods {
+public class NeighborhoodsAspiration {
 	private ArrayList<Integer[]> subsets;
 	private int[] sol;
 	
-	public Neighborhoods(IntDomain[] domains, int [] solution, List<Pair> tabuMoves) {
+	public NeighborhoodsAspiration(IntDomain[] domains, int [] solution, List<Pair> tabuMoves) {
 		subsets = new ArrayList<Integer[]>();
 		sol = cloneSolution(solution);
 		//parcourir les valeurs de la solutions
-//		Integer[][] sols = new Integer[sol.length][sol.length-1];
-//		for(int i = 0; i < sol.length; ++i) { //i = ligne
-//			System.out.println(domains[i]);
-//			//pour chaque valeur de la solution courante, il y a n-1 autre solution
-//			int k = 0; // colonne
-//			//pour chaques valeurs des autres solutions, parcourir le domaine possible
-//			for(int j = domains[i].min(); j <= domains[i].max(); j++) { //j valeur du domaine de xi
-//				//vérifier que la valeur courante (j) n'est pas la solution
-//				//auquel cas l'ajouter dans le tableau de solution
-//				if(j != sol[i]) {
-//					sols[i][k] = j;
-//					++k;
-////					System.out.println("current sol : " + sol[i] + ", possible sol : " + j);
-//				}
-//			}
-//		}
-		IntDomain[] cloneDomain = domains.clone();
-		for(int i = 0; i < sol.length; ++i) {
-			cloneDomain[i].subtractAdapt(sol[i]);
+		Integer[][] sols = new Integer[sol.length][sol.length-1];
+		for(int i = 0; i < sol.length; ++i) { //i = ligne
+			//pour chaque valeur de la solution courante, il y a n-1 autre solution
+			int k = 0; // colonne
+			//pour chaques valeurs des autres solutions, parcourir le domaine possible
+			for(int j = domains[i].min(); j <= domains[i].max(); j++) { //j valeur du domaine de xi
+				//vérifier que la valeur courante (j) n'est pas la solution
+				//auquel cas l'ajouter dans le tableau de solution
+				if(j != sol[i]) {
+					sols[i][k] = j;
+					++k;
+//					System.out.println("current sol : " + sol[i] + ", possible sol : " + j);
+				}
+			}
 		}
-		
 //		System.out.print("[");
 //		for(int i = 0; i < sol.length; ++i) {
 //			System.out.print("[");
@@ -53,17 +47,19 @@ public class Neighborhoods {
 //			}
 //		}
 		Integer[] temp;
-		for(int i = 0; i < cloneDomain.length; ++i) {
-			for(int j = 0; j < cloneDomain[i].getSize(); ++j) {
-				temp = copySol(sol);//initialisation de la variable temporaire
-				temp[i] = cloneDomain[i].getElementAt(j);
-				if(!isTabuMove(tabuMoves, i, cloneDomain[i].getElementAt(j))) {
+		System.out.println("Cout de la solution courante : " + fitness(sol));
+		for(int i = 0; i < sols.length; ++i) {
+			for(int j = 0; j < sols[i].length; ++j) {
+				temp = copySol(sol);
+				temp[i] = sols[i][j];
+				subsets.add(temp);
+				if(!isTabuMove(tabuMoves, i, sols[i][j])) {
 					subsets.add(temp);
 				}
 //				else {
 //					System.out.println("-------------------------");
 //					printSolution(fromtabInteger(temp));
-//					System.out.println(fitness(fromtabInteger(temp)));
+//					System.out.println("cout de la solution tabou : " + fitness(fromtabInteger(temp)));
 //					System.out.println("-------------------------");
 //				}
 			}

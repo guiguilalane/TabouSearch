@@ -17,11 +17,11 @@ import JaCoP.search.SimpleSelect;
 import JaCoP.search.SmallestDomain;
 
 
-public class ChessQueens {
+public class ChessQueensAspirationCondition {
 	private Store store;
 	private IntVar[] Q;		// main variables: Q[i] represents the column of the queen on the i-th row 
 	
-	public ChessQueens(int n) {
+	public ChessQueensAspirationCondition(int n) {
 		store = new Store();
 		Q = new IntVar[n];
 
@@ -193,7 +193,7 @@ public class ChessQueens {
 
 	public static void main(String[] args) {
 		final int n = 100;
-		ChessQueens model = new ChessQueens(n);
+		ChessQueensAspirationCondition model = new ChessQueensAspirationCondition(n);
 
 //		 boolean result = model.completeSearch();
 		
