@@ -145,6 +145,19 @@ public class ChessQueens {
 					.fitness(bestSol)) {
 				bestSol = bestCandidate;
 			}
+<<<<<<< HEAD
+//			System.out.println(forbiddenMove);
+			System.out.println("k : " + k + ", sizeOfTabuMoves : " + sizeOfTabuMoves + ", k%sizeOfTabuMove = " + k%sizeOfTabuMoves);
+			System.out.println(forbiddenMove);
+			tabuMoves.add(forbiddenMove);
+//			tabuMoves.add(k%sizeOfTabuMoves, forbiddenMove);
+//			Pair p = tabuMoves.getTabuMove(k);
+			System.out.println(tabuMoves);
+//			System.out.println(p);
+			System.out.println("cout : " + Neighborhoods.fitness(bestSol));
+			System.out.println("**************************************");
+			//TODO : update tabu list an aspiration condition
+=======
 			// System.out.println(forbiddenMove);
 			// System.out.println("k : " + k + ", sizeOfTabuMoves : "
 			// + sizeOfTabuMoves + ", k%sizeOfTabuMove = " + k
@@ -158,6 +171,7 @@ public class ChessQueens {
 			// System.out.println("cout : " + Neighborhoods.fitness(bestSol));
 			// System.out.println("**************************************");
 			// TODO : update tabu list an aspiration condition
+>>>>>>> 0614dd0e7504635aa6c8541208b1afbdb231fdd7
 			k++;
 		}
 

@@ -153,6 +153,49 @@ Tabu search est une heuristique de la méthode de recherche locale. Elle consist
 
 \section{N-Queens avec TabuSearch et CompleteSearch comparaison}
 
+Ces comparaison ont été effectuées pour différentes valeurs de n (représentant le nombre de reine). L'algorithme \emph{CompleteSearch} a été exécuté avec l'heuristique \emph{Depth First Search}.
+
+Pour chaque valeur n, l'algorithme a été lancé 20 fois. Le temps présenté est la moyenne de ces 20 résultats.
+\vspace{0.3cm}
+
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+\multicolumn{7}{|c|}{CompleteSearch}\\
+\hline
+n & Nodes & Decisions & Wrong Decisions & Backtracks & Max Depth & Execution Time (s) \\
+\hline
+4 & 9 & 5 & 4 & 5 & 4 & 0.036\\
+\hline
+10 & 10707 & 5715 & 4992 & 5715 & 27 & 0.365\\
+\hline
+13 & 1104187 & 588949 & 515238 & 588949 & 46 & 8.094\\
+\hline
+20 & \multicolumn{6}{c|}{No result (OutOfMemory)}\\
+\hline
+50 & \multicolumn{6}{c|}{No result (OutOfMemory)}\\
+\hline
+\end{tabular}
+
+\vspace{0.3cm}
+%TODO A compléter
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+\multicolumn{7}{|c|}{TabuSearch}\\
+\hline
+n & Nodes & Decisions & Wrong Decisions & Backtracks & Max Depth & Execution Time (s) \\
+\hline
+4 &  &  &  &  &  & 0,002\\
+\hline
+10 &  &  &  &  &  & 0.025\\
+\hline
+13 & 1104187 & 588949 & 515238 & 588949 & 46 & 18.926\\
+\hline
+20 & \multicolumn{6}{c|}{No result (OutOfMemory)}\\
+\hline
+50 & \multicolumn{6}{c|}{No result (OutOfMemory)}\\
+\hline
+\end{tabular}
+
 \section{Ajout des conditions d'aspirations}
 
 \section{TabuSearch algorithme avec procédure de redémarrage}

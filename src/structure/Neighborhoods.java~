@@ -115,6 +115,13 @@ public class Neighborhoods {
 		while (ip.hasNext() && !res) {
 			p = ip.next();
 			res = res || (p.x == x && p.y == y);
+<<<<<<< HEAD
+=======
+			if (res) {// TODO: ASUP
+				System.out.println("is tabu? : " + res);
+				System.out.println(p);
+			}
+>>>>>>> 0614dd0e7504635aa6c8541208b1afbdb231fdd7
 		}
 		return res;
 	}
