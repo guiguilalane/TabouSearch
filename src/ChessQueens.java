@@ -17,8 +17,10 @@ import JaCoP.search.SimpleSelect;
 import JaCoP.search.SmallestDomain;
 
 public class ChessQueens {
+
+	private final boolean debug = true;
 	private Store store;
-	private IntVar[] Q; // main variables: Q[i] represents the column of the
+	private IntVar[] Q; // Main variables: Q[i] represents the column of the
 						// queen on the i-th row
 
 	public ChessQueens(int n) {
@@ -32,12 +34,11 @@ public class ChessQueens {
 			Q[i] = new IntVar(store, "Q" + i, 0, n - 1);
 			y[i] = new IntVar(store, "y" + i, -i, n - 1 - i);
 			z[i] = new IntVar(store, "z" + i, i, n - 1 + i);
-			// System.out.println("y[i] : " + y[i]);
 			store.impose(new XplusCeqZ(Q[i], i, z[i]));
 			store.impose(new XplusCeqZ(y[i], i, Q[i]));
 		}
 
-		// all different: no attack on columns
+		// All different: no attack on columns
 		store.impose(new Alldifferent(Q));
 		store.impose(new Alldifferent(y));
 		store.impose(new Alldifferent(z));
@@ -76,9 +77,9 @@ public class ChessQueens {
 		ArrayList<Integer> usedSol = new ArrayList<Integer>();
 		for (int i = 0; i < domains.length; ++i) {
 			IntDomain d = (IntDomain) domains[i].clone();
-			if (!usedSol.isEmpty()) { // lorsqu'un valeur est affectée à une
-										// reine, cette valeur est retirée du
-										// domaine des reines suivantes
+			if (!usedSol.isEmpty()) { // When a value is affect to a queen, this
+										// value was delete of the domain of
+										// next queens
 				d = removeValueFromDomain(d, usedSol);
 			}
 			ValueEnumeration values = d.valueEnumeration();
@@ -86,7 +87,7 @@ public class ChessQueens {
 			// System.out.println("r : " + r);
 			int v = -1;
 			for (int j = 0; j <= r; ++j) {
-				v = values.nextElement(); // only the r-th is relevant
+				v = values.nextElement(); // Only the r-th is relevant
 				// System.out.println("\tvalues : " + v);
 				solution[i] = v;
 			}
@@ -109,7 +110,7 @@ public class ChessQueens {
 	}
 
 	// Main algorithm... to be completed
-	public/* boolean */double tabuSearch(int sizeOfTabuMoves) {
+	public boolean tabuSearch(int sizeOfTabuMoves) {
 
 		double T1, T2, T;
 		T1 = System.currentTimeMillis();
@@ -117,47 +118,47 @@ public class ChessQueens {
 		// Generate a first solution
 		IntDomain[] domains = getDomains();
 		int[] sol = generateSolution(domains);
-		System.out.println("First generated solution");
-		Neighborhoods.printSolution(sol);
-		System.out.println();
+		if (!debug) {
+			System.out.println("First generated solution");
+			Neighborhoods.printSolution(sol);
+			System.out.println();
+		}
 		// State that correspond to the best Solution known
 		int[] bestSol = sol;
 
-		// TODO: Créer nouvelle structure pour gérer la taille maximal de la
-		// liste.
 		// List<Pair> tabuMoves = new ArrayList<Pair>(sizeOfTabuMoves);
 		TabuMoves tabuMoves = new TabuMoves(sizeOfTabuMoves);
 
-		// iteration number
+		// Iteration number
 		int k = 0;
 		Neighborhoods subsets;
 		Pair forbiddenMove = null;
 		while (stopConditions(k) && Neighborhoods.fitness(bestSol) != 0) {
 
-			subsets = new Neighborhoods(domains, sol, tabuMoves.getTabuMoves());// candidate
-																				// solutions
+			// Candidate solutions
+			subsets = new Neighborhoods(domains, sol, tabuMoves.getTabuMoves());
+
 			forbiddenMove = new Pair(0, 0);
-			int[] bestCandidate = subsets.calculateBestCandidate(forbiddenMove);// best
-																				// candidate
-																				// solution
-			sol = bestCandidate; // update current solution
+			// Best candidate solution
+			int[] bestCandidate = subsets.calculateBestCandidate(forbiddenMove);
+
+			sol = bestCandidate; // Update current solution
 			if (Neighborhoods.fitness(bestCandidate) < Neighborhoods
 					.fitness(bestSol)) {
 				bestSol = bestCandidate;
 			}
-			// System.out.println(forbiddenMove);
-			// System.out.println("k : " + k + ", sizeOfTabuMoves : "
-			// + sizeOfTabuMoves + ", k%sizeOfTabuMove = " + k
-			// % sizeOfTabuMoves);
-			// System.out.println(forbiddenMove);
-			tabuMoves.add(k, forbiddenMove);
-			// tabuMoves.add(k%sizeOfTabuMoves, forbiddenMove);
-			// Pair p = tabuMoves.getTabuMove(k);
-			// System.out.println(tabuMoves);
-			// System.out.println(p);
-			// System.out.println("cout : " + Neighborhoods.fitness(bestSol));
-			// System.out.println("**************************************");
-			// TODO : update tabu list an aspiration condition
+			if (!debug) {
+				System.out.println(forbiddenMove);
+				System.out.println("k : " + k + ", sizeOfTabuMoves : "
+						+ sizeOfTabuMoves + ", k%sizeOfTabuMove = " + k
+						% sizeOfTabuMoves);
+				System.out.println(forbiddenMove);
+			}
+			tabuMoves.add(forbiddenMove);
+			if (!debug) {
+				System.out.println("cout : " + Neighborhoods.fitness(bestSol));
+				System.out.println("**************************************");
+			}
 			k++;
 		}
 
@@ -167,23 +168,12 @@ public class ChessQueens {
 		Neighborhoods.printSolution(bestSol);
 		System.out.println("cout : " + Neighborhoods.fitness(bestSol));
 
-		System.out.println("\n\t*** Execution time = " + T + " ms");
+		boolean findSolution = (Neighborhoods.fitness(bestSol) == 0);
 
-		// Calculate the cost of the curent solution
-		// int cost = fitness(sol);
-
-		// System.out.println("\nfitness : " + cost);
-
-		// ...
-
-		// return true;
-		return T;
+		return findSolution;
 	}
 
-	public/* boolean */double completeSearch() {
-
-		double T1, T2, T;
-		T1 = System.currentTimeMillis();
+	public boolean completeSearch() {
 
 		DepthFirstSearch<IntVar> search = new DepthFirstSearch<IntVar>();
 
@@ -195,41 +185,60 @@ public class ChessQueens {
 
 		boolean result = search.labeling(store, select);
 
-		T2 = System.currentTimeMillis();
-		T = T2 - T1;
-
-		for (int i = 1; i <= search.getSolutionListener().solutionsNo(); i++) {
-			System.out.print("Solution " + i + ": [");
-			for (int j = 0; j < search.getSolution(i).length; j++) {
-				if (j != 0)
-					System.out.print(", ");
-				System.out.print(search.getSolution(i)[j]);
+		if (!debug) {
+			for (int i = 1; i <= search.getSolutionListener().solutionsNo(); i++) {
+				System.out.print("Solution " + i + ": [");
+				for (int j = 0; j < search.getSolution(i).length; j++) {
+					if (j != 0)
+						System.out.print(", ");
+					System.out.print(search.getSolution(i)[j]);
+				}
+				System.out.println("]");
 			}
-			System.out.println("]");
 		}
 
-		return T;
-		// return result;
+		return result;
 	}
 
 	public static void main(String[] args) {
-		final int n = 10;
+		// Number of queen
+		final int n = 100;
+		// Number of execution algorithm
+		int nbExec = 100;
 
-		// boolean result = model.completeSearch();
-		// boolean result = model.tabuSearch(25);
-
+		// Stock the execution time for the number of launch
 		double sumExecutionTimeCS = 0;
 		double sumExecutionTimeTS = 0;
-		int i;
-		for (i = 0; i < 20; i++) {
-			ChessQueens modelCS = new ChessQueens(n);
-			/* boolean result */sumExecutionTimeCS += modelCS.completeSearch();
-			ChessQueens modelTS = new ChessQueens(n);
-			/* boolean result */sumExecutionTimeTS += modelTS.tabuSearch(25);
-		}
-		System.out.println("Moyenne CS: " + sumExecutionTimeCS / i);
-		System.out.println("Moyenne TS: " + sumExecutionTimeTS / i);
+		double T1, T2;
+		// Stock the number of time there isn't solution
+		int nbErrorsTS = 0;
+		int nbErrorsCS = 0;
+		for (int i = 0; i < nbExec; i++) {
+			// CompleteSearch
+			// ChessQueens modelCS = new ChessQueens(n);
+			// T1 = System.currentTimeMillis();
+			// boolean resultCS = modelCS.completeSearch();
+			// if (!resultCS) {
+			// nbErrorsCS++;
+			// }
+			// T2 = System.currentTimeMillis();
+			// sumExecutionTimeCS += T2 - T1;
 
+			// TabuSearch
+			ChessQueens modelTS = new ChessQueens(n);
+			T1 = System.currentTimeMillis();
+			boolean resultTS = modelTS.tabuSearch(25);
+			if (!resultTS) {
+				nbErrorsTS++;
+			}
+			T2 = System.currentTimeMillis();
+			sumExecutionTimeTS += T2 - T1;
+		}
+		System.out.println("Average CS: " + sumExecutionTimeCS / nbExec);
+		System.out.println("Number of errors CS: " + nbErrorsCS);
+
+		System.out.println("Average TS: " + sumExecutionTimeTS / nbExec);
+		System.out.println("Number of errors TS: " + nbErrorsTS);
 	}
 
 }

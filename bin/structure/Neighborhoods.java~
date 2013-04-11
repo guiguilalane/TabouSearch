@@ -79,19 +79,19 @@ public class Neighborhoods {
 				// }
 			}
 		}
-
-		// System.out.println("deb Affichage");
-		// System.out.print("[");
-		// for(Integer[] is: subsets) {
-		// System.out.print("[");
-		// for(Integer i: is) {
-		// System.out.print(i + ", ");
-		// }
-		// System.out.print("], ");
-		// }
-		// System.out.println("]");
+		
+//		System.out.println("deb Affichage");
+//		System.out.print("[");
+//		for(Integer[] is: subsets) {
+//			System.out.print("[");
+//			for(Integer i: is) {
+//				System.out.print(i + ", ");
+//			}
+//			System.out.print("], ");
+//		}
+//		System.out.println("]");
 	}
-
+	
 	public static int[] cloneSolution(int[] toClone) {
 		int[] res = new int[toClone.length];
 		for (int i = 0; i < toClone.length; ++i) {
@@ -115,6 +115,13 @@ public class Neighborhoods {
 		while (ip.hasNext() && !res) {
 			p = ip.next();
 			res = res || (p.x == x && p.y == y);
+<<<<<<< HEAD
+=======
+			if (res) {// TODO: ASUP
+				System.out.println("is tabu? : " + res);
+				System.out.println(p);
+			}
+>>>>>>> 0614dd0e7504635aa6c8541208b1afbdb231fdd7
 		}
 		return res;
 	}
@@ -131,7 +138,10 @@ public class Neighborhoods {
 	}
 
 	public int[] calculateBestCandidate(Pair tabuMove) {
+		System.out.println("plop");
+		System.out.println("bloup " + subsets.size());
 		int[] bestCandidate = new int[subsets.get(0).length];
+		System.out.println("voila");
 		int bestCost = Integer.MAX_VALUE;
 		int bestMove = 0;
 		// System.out.println("********************");

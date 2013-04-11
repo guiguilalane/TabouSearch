@@ -147,63 +147,90 @@ L'objectif de ce TP fut de comprendre et d'implémenter l'algorithme TabuSearch 
 %%%%%%%%%% TS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Présentation du TabuSearch}
-%TODO
-Tabu search est une heuristique de la méthode de recherche locale. Elle consiste dans un premier temps à générer affectation totale des variables. Elle va ensuite effectuer le mouvement qui a un coût le moins important. Tabu search permet d'ajouter une contrainte, en effet on marque les $p$ derniers mouvements effectués qui seront interdits. On répète cette dernière opération jusqu'à que le coût soit égal à 0 ou jusqu'à ce que le nombre maximum d'essai soit atteint.
-%TODO --> Voir pour les aspirations
+Tabu search est une heuristique de la méthode de recherche locale. Elle consiste dans un premier temps à générer affectation totale des variables. Elle va ensuite effectuer le mouvement qui a un coût le moins important. Tabu search permet d'ajouter une contrainte, en effet on marque les $p$ derniers mouvements effectués qui seront interdits. On répète cette dernière opération jusqu'à ce que le coût soit égal à 0 ou jusqu'à ce que le nombre maximum d'essai soit atteint.
 
 \section{N-Queens avec TabuSearch et CompleteSearch comparaison}
 
-Ces comparaison ont été effectuées pour différentes valeurs de n (représentant le nombre de reine). L'algorithme \emph{CompleteSearch} a été exécuté avec l'heuristique \emph{Depth First Search}.
+Ces comparaisons ont été effectuées pour différentes valeurs de n (représentant le nombre de reine). L'algorithme \emph{CompleteSearch} a été exécutée avec l'heuristique \emph{Depth First Search}.
 
-Pour chaque valeur n, l'algorithme a été lancé 20 fois. Le temps présenté est la moyenne de ces 20 résultats.
-\vspace{0.3cm}
+Pour chaque valeur n, l'algorithme a été lancé 100 fois. Le temps présenté est la moyenne de ces 100 résultats. Le \emph{Number of errors} représente le nombre de fois où l'algorithme n'a pas trouvé de solution; dans le cas du TabuSearch ce cas peut arriver lorsque le nombre maximum de tour de boucle est atteind sans qu'aucune solution soit trouvée. \newline
 
-\begin{tabular}{|c|c|c|c|c|c|c|}
+\noindent
+\begin{tabular}{|c|c|c|}
 \hline
-\multicolumn{7}{|c|}{CompleteSearch}\\
+\multicolumn{3}{|c|}{CompleteSearch}\\
 \hline
-n & Nodes & Decisions & Wrong Decisions & Backtracks & Max Depth & Execution Time (s) \\
+n & Number errors & Execution Time (ms) \\
 \hline
-4 & 9 & 5 & 4 & 5 & 4 & 0.036\\
+1 & 0 & 0.2\\
 \hline
-10 & 10707 & 5715 & 4992 & 5715 & 27 & 0.365\\
+2 & 100 & 0.45\\
 \hline
-13 & 1104187 & 588949 & 515238 & 588949 & 46 & 8.094\\
+3 & 100 & 0.77\\
 \hline
-20 & \multicolumn{6}{c|}{No result (OutOfMemory)}\\
+4 & 0 & 1.6\\
 \hline
-50 & \multicolumn{6}{c|}{No result (OutOfMemory)}\\
+5 & 0 & 2.77\\
+\hline
+10 & 0 & 60.22\\
+\hline
+13 & 0 & 7717.57\\
+\hline
+>16 & \multicolumn{2}{c|}{No result (OutOfMemory)}\\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+\multicolumn{3}{|c|}{TabuSearch}\\
+\hline
+n & Number errors & Execution Time (ms) \\
+\hline
+1 & 0 & 0.13\\
+\hline
+2 & 100 & 0.83\\
+\hline
+3 & 100 & 1.01\\
+\hline
+4 & 0 & 0.47\\
+\hline
+5 & 0 & 0.56\\
+\hline
+10 & 36 & 2.98\\
+\hline
+13 & 31 & 10.52\\
+\hline
+20 & 35 & 20.55\\
+\hline
+30 & 47 & 102.39\\
+\hline
+50 & 45 & 692.37\\
+\hline
+75 & 31 & 3312.75 \\
+\hline
+100 & 23 & 10776.28 \\
 \hline
 \end{tabular}
 
-\vspace{0.3cm}
-%TODO A compléter
-\begin{tabular}{|c|c|c|c|c|c|c|}
-\hline
-\multicolumn{7}{|c|}{TabuSearch}\\
-\hline
-n & Nodes & Decisions & Wrong Decisions & Backtracks & Max Depth & Execution Time (s) \\
-\hline
-4 &  &  &  &  &  & 0,002\\
-\hline
-10 &  &  &  &  &  & 0.025\\
-\hline
-13 & 1104187 & 588949 & 515238 & 588949 & 46 & 18.926\\
-\hline
-20 & \multicolumn{6}{c|}{No result (OutOfMemory)}\\
-\hline
-50 & \multicolumn{6}{c|}{No result (OutOfMemory)}\\
-\hline
-\end{tabular}
+\begin{figure}[H]
+    \center
+    \subfloat[Execution time]{\includegraphics[width=7.3cm]{Images/TS_ExecTime.png}} \quad
+    \subfloat[Number of errors]{\includegraphics[width=7.3cm]{Images/TS_NumberErrors.png}}
+    \caption{Graph of comparaison between CompleteSearch and TabuSearch}
+\end{figure}
+On peut voir que pour $n$ égal à $2$ et $3$, aucune solution n'est jamais trouvée. En effet, ce problème n'est pas consistent.
+
+On peut de plus constater que pour $n>13$, l'algorithme \emph{CompleteSearch} ne permet pas de résoudre le problème. La façon dont celui-ci recherche les solutions engendre une exception \emph{OutOfMemory}.
+
+On peut remarquer que plus le nombre de $n$ de reines augmente plus le temps d'exécution augmente (de façon exponentielle). Cette remarque est valable pour les deux algorithmes testés.
+
+On peut cependant noter que le \emph{TabuSearch} permet de trouver la solution pour un plus grand nombre de reines. Si l'on compare les deux algorithmes, pour le même nombre de reines donnés \emph{TabuSearch} est plus rapide.
+
+La dernière remarque que l'on peut faire, concerne le nombre d'erreurs. Ceux-ci ne sont pas régulier pour le \emph{TabuSearch} car en effet tout dépend de la première solution générée aléatoirement, du nombre d'itération maximum donnés (ici nous avons choisi 100) et de la taille de la liste des éléments tabous. 
 
 \section{Ajout des conditions d'aspirations}
+Les conditions d'aspirations permettent d'autoriser un élément tabou s'il améliore la meilleure solution.
 
 \section{TabuSearch algorithme avec procédure de redémarrage}
 
 \end{document}
 
-\begin{figure}[H]
-    \center
-    \includegraphics[width=2cm]{Images/menuFichier.png}
-    \caption{Le menu Fichier}
-\end{figure}

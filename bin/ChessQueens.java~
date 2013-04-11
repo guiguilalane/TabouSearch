@@ -16,12 +16,12 @@ import JaCoP.search.SelectChoicePoint;
 import JaCoP.search.SimpleSelect;
 import JaCoP.search.SmallestDomain;
 
-public class ChessQueensAspirationCondition {
+public class ChessQueens {
 	private Store store;
 	private IntVar[] Q; // main variables: Q[i] represents the column of the
 						// queen on the i-th row
 
-	public ChessQueensAspirationCondition(int n) {
+	public ChessQueens(int n) {
 		store = new Store();
 		Q = new IntVar[n];
 
@@ -109,15 +109,17 @@ public class ChessQueensAspirationCondition {
 	}
 
 	// Main algorithm... to be completed
-	public boolean tabuSearch(int sizeOfTabuMoves) {
+	public/* boolean */double tabuSearch(int sizeOfTabuMoves) {
 
-		boolean cost = false;
+		double T1, T2, T;
+		T1 = System.currentTimeMillis();
+
 		// Generate a first solution
 		IntDomain[] domains = getDomains();
 		int[] sol = generateSolution(domains);
-		// System.out.println("First generated solution");
-		// Neighborhoods.printSolution(sol);
-		// System.out.println();
+		System.out.println("First generated solution");
+		Neighborhoods.printSolution(sol);
+		System.out.println();
 		// State that correspond to the best Solution known
 		int[] bestSol = sol;
 
@@ -139,67 +141,47 @@ public class ChessQueensAspirationCondition {
 																				// candidate
 																				// solution
 			sol = bestCandidate; // update current solution
-			int fitOfBestC = Neighborhoods.fitness(bestCandidate);
-			int fitOfBestS = Neighborhoods.fitness(bestSol);
-			if (fitOfBestC < fitOfBestS) {
+			if (Neighborhoods.fitness(bestCandidate) < Neighborhoods
+					.fitness(bestSol)) {
 				bestSol = bestCandidate;
-				System.out.println("k : " + k + ", sizeOfTabuMoves : "
-						+ sizeOfTabuMoves + ", k%sizeOfTabuMove = " + k
-						% sizeOfTabuMoves);
-				System.out.println(forbiddenMove);
-				tabuMoves.add(forbiddenMove);
-			} else if (fitOfBestC >= fitOfBestS) {
-				// aspiration condition
-				System.out.println("pas d'amélioration");
-				int fitOfBestA = fitOfBestC;
-				int[] altSol = Neighborhoods.cloneSolution(bestSol);
-				for (Pair p : tabuMoves.getTabuMoves()) {
-					// System.out.println("pair : " + p);
-					// System.out.println("bestCandidate : " + bestSol[p.x]);
-					// System.out.println(bestSol[p.x] != p.y);
-					if (bestSol[p.x] != p.y) {
-						/*
-						 * if the queen value of the tabuMove is different from
-						 * the queen value of the bestCandidate Solution, we
-						 * check if the cost of the move improve the fitness.
-						 */
-						altSol[p.x] = p.x;
-						fitOfBestA = Neighborhoods.fitness(altSol);
-						// System.out.println("fitness of bestCandidate with tabuMove : "
-						// + fitOfBestA);
-					}
-				}
-				if (fitOfBestA < fitOfBestS) {
-					System.out.println("Improvement");
-					bestSol = altSol;
-				} else if (fitOfBestC == fitOfBestS) { // if it doesn't improve
-														// the fitness
-					System.out.println("No improvement");
-					// It set the move to a tabuMove, to avoid infint loop
-					tabuMoves.add(forbiddenMove);
-				}
-			} else {
-				System.out.println("k : " + k + ", sizeOfTabuMoves : "
-						+ sizeOfTabuMoves + ", k%sizeOfTabuMove = " + k
-						% sizeOfTabuMoves);
-				System.out.println(forbiddenMove);
-				tabuMoves.add(forbiddenMove);
 			}
+<<<<<<< HEAD
+//			System.out.println(forbiddenMove);
+			System.out.println("k : " + k + ", sizeOfTabuMoves : " + sizeOfTabuMoves + ", k%sizeOfTabuMove = " + k%sizeOfTabuMoves);
+			System.out.println(forbiddenMove);
+			tabuMoves.add(forbiddenMove);
+//			tabuMoves.add(k%sizeOfTabuMoves, forbiddenMove);
+//			Pair p = tabuMoves.getTabuMove(k);
+			System.out.println(tabuMoves);
+//			System.out.println(p);
+			System.out.println("cout : " + Neighborhoods.fitness(bestSol));
+			System.out.println("**************************************");
+			//TODO : update tabu list an aspiration condition
+=======
 			// System.out.println(forbiddenMove);
-
+			// System.out.println("k : " + k + ", sizeOfTabuMoves : "
+			// + sizeOfTabuMoves + ", k%sizeOfTabuMove = " + k
+			// % sizeOfTabuMoves);
+			// System.out.println(forbiddenMove);
+			tabuMoves.add(k, forbiddenMove);
 			// tabuMoves.add(k%sizeOfTabuMoves, forbiddenMove);
 			// Pair p = tabuMoves.getTabuMove(k);
 			// System.out.println(tabuMoves);
 			// System.out.println(p);
-			cost = Neighborhoods.fitness(bestSol) == 0;
-			System.out.println("cout : " + cost);
-			System.out.println("**************************************");
+			// System.out.println("cout : " + Neighborhoods.fitness(bestSol));
+			// System.out.println("**************************************");
 			// TODO : update tabu list an aspiration condition
+>>>>>>> 0614dd0e7504635aa6c8541208b1afbdb231fdd7
 			k++;
 		}
 
+		T2 = System.currentTimeMillis();
+		T = T2 - T1;
+
 		Neighborhoods.printSolution(bestSol);
 		System.out.println("cout : " + Neighborhoods.fitness(bestSol));
+
+		System.out.println("\n\t*** Execution time = " + T + " ms");
 
 		// Calculate the cost of the curent solution
 		// int cost = fitness(sol);
@@ -208,10 +190,15 @@ public class ChessQueensAspirationCondition {
 
 		// ...
 
-		return cost;
+		// return true;
+		return T;
 	}
 
-	public boolean completeSearch() {
+	public/* boolean */double completeSearch() {
+
+		double T1, T2, T;
+		T1 = System.currentTimeMillis();
+
 		DepthFirstSearch<IntVar> search = new DepthFirstSearch<IntVar>();
 
 		search.getSolutionListener().searchAll(true);
@@ -221,6 +208,9 @@ public class ChessQueensAspirationCondition {
 				new SmallestDomain<IntVar>(), new IndomainMedian<IntVar>());
 
 		boolean result = search.labeling(store, select);
+
+		T2 = System.currentTimeMillis();
+		T = T2 - T1;
 
 		for (int i = 1; i <= search.getSolutionListener().solutionsNo(); i++) {
 			System.out.print("Solution " + i + ": [");
@@ -232,18 +222,27 @@ public class ChessQueensAspirationCondition {
 			System.out.println("]");
 		}
 
-		return result;
+		return T;
+		// return result;
 	}
 
 	public static void main(String[] args) {
-		final int n = 300;
-		boolean result = true;
-		ChessQueensAspirationCondition model = new ChessQueensAspirationCondition(
-				n);
+		final int n = 10;
 
 		// boolean result = model.completeSearch();
+		// boolean result = model.tabuSearch(25);
 
-		result = model.tabuSearch(25);
+		double sumExecutionTimeCS = 0;
+		double sumExecutionTimeTS = 0;
+		int i;
+		for (i = 0; i < 20; i++) {
+			ChessQueens modelCS = new ChessQueens(n);
+			/* boolean result */sumExecutionTimeCS += modelCS.completeSearch();
+			ChessQueens modelTS = new ChessQueens(n);
+			/* boolean result */sumExecutionTimeTS += modelTS.tabuSearch(25);
+		}
+		System.out.println("Moyenne CS: " + sumExecutionTimeCS / i);
+		System.out.println("Moyenne TS: " + sumExecutionTimeTS / i);
 
 	}
 
