@@ -17,7 +17,6 @@ import JaCoP.search.SimpleSelect;
 import JaCoP.search.SmallestDomain;
 
 
-//TODO: utiliser la librairie Javaplot
 public class ChessQueens {
 	private Store store;
 	private IntVar[] Q;		// main variables: Q[i] represents the column of the queen on the i-th row 
