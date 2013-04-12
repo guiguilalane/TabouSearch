@@ -5,3 +5,4 @@
 \contentsline {section}{\numberline {3}N-Queens avec TabuSearch et CompleteSearch comparaison}{2}{section.3}
 \contentsline {section}{\numberline {4}Ajout des conditions d'aspirations}{3}{section.4}
 \contentsline {section}{\numberline {5}TabuSearch algorithme avec proc\IeC {\'e}dure de red\IeC {\'e}marrage}{3}{section.5}
+\contentsline {section}{\numberline {6}Conclusion}{4}{section.6}

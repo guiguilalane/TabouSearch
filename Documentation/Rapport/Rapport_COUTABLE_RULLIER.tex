@@ -147,10 +147,7 @@ L'objectif de ce TP fut de comprendre et d'implémenter l'algorithme TabuSearch 
 %%%%%%%%%% TS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Présentation du TabuSearch}
-Tabu search est une heuristique de la méthode de recherche locale. Elle consiste dans un premier temps à générer affectation totale des variables. Puis
-calculer le coût de chaque mouvements possibles, pour ensuite effectuer le mouvement qui a un coût le moins important. Tabu search permet d'ajouter une
-contrainte, en effet on marque les $p$ derniers mouvements effectués qui seront interdits. On répète cette dernière opération jusqu'à ce que le coût soit égal à
-0 ou jusqu'à ce que le nombre maximum d'essai soit atteint.
+Tabu search est une heuristique de la méthode de recherche locale. Elle consiste dans un premier temps à générer affectation totale des variables. Puis calculer le coût de chaque mouvement possible, pour ensuite effectuer le mouvement qui a le coût le moins important. Tabu search permet d'ajouter une contrainte, en effet on marque les $p$ derniers mouvements effectués qui seront interdits. On répète cette dernière opération jusqu'à ce que le coût soit égal à 0 ou jusqu'à ce que le nombre maximum d'essai soit atteint.
 
 \section{N-Queens avec TabuSearch et CompleteSearch comparaison}
 
@@ -233,11 +230,57 @@ La dernière remarque que l'on peut faire, concerne le nombre d'erreurs. Ceux-ci
 \section{Ajout des conditions d'aspirations}
 On peut compléter l'heuristique de \emph{TabuSearch} en ajoutant les conditions d'aspirations.
 Ces conditions d'aspirations permettent d'autoriser un élément tabou s'il améliore la meilleure solution.
-Pour ajouter les conditions d'aspirations à notre algorithme de \emph{TabuSearch}. On effectue l'algorithme de \emph{TabuSearch}, puis à chaque itération qui
-n'améliore pas la meilleure solution, on regarde dans la liste Tabou si un mouvement déjà effectué peut améliorer la meilleure solution.
+Pour ajouter les conditions d'aspirations à notre algorithme de \emph{TabuSearch}. On effectue l'algorithme de \emph{TabuSearch}, puis à chaque itération qui n'améliore pas la meilleure solution, on regarde dans la liste Tabou si un mouvement déjà effectué peut améliorer la meilleure solution.
 
 \section{TabuSearch algorithme avec procédure de redémarrage}
 L'ajout de la procédure de redémarrage, permet de relancer l'algorithme \emph{TabuSearch} si aucune solution n'est trouvée avant que le nombre d'itérations maximum soit atteint.
 
-\end{document}
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\multicolumn{3}{|c|}{TabuSearch}\\
+\hline
+n & Number errors & Execution Time (ms) \\
+\hline
+1 & 0 & 0.09\\
+\hline
+2 & 100 & 1.8\\
+\hline
+3 & 100 & 1.34\\
+\hline
+4 & 0 & 0.42\\
+\hline
+5 & 0 & 0.51\\
+\hline
+10 & 11 & 3.48\\
+\hline
+13 & 11 & 6.96\\
+\hline
+20 & 14 & 26.76\\
+\hline
+30 & 14 & 122.1\\
+\hline
+50 & 14 & 854.25\\
+\hline
+75 & 14 & 4622.72 \\
+\hline
+100 & 6 & 13486.82 \\
+\hline
+\end{tabular}
+\end{center}
 
+\begin{figure}[H]
+    \center
+    \subfloat[Execution time]{\includegraphics[width=7.3cm]{Images/TSRestart_ExecTime.png}} \quad
+    \subfloat[Number of errors]{\includegraphics[width=7.3cm]{Images/TSRestart_NumberErrors.png}}
+    \caption{Graph of execution time and number of errors in TabuSearch restart procedure}
+\end{figure}
+
+On peut remarquer que l'ajout de la procédure de redémarrage diminue le nombre d'erreurs. En effet, si le \emph{TabuSearch} n'a pas trouvé de solution à la première exécution, il est relancé un certain nombre de fois (paramètre $nbRestart$ de la fonction \emph{restart}). Il a donc $nbRestart$ chance de plus de trouver une solution.
+Cependant, il est difficile de comparer avec les temps d'exécutions. En effet, tout dépend de la première solution générée aléatoirement. Le nombre d'erreurs ayant diminué pour certaines valeurs de $n$ comme par exemple $13$, on voit que le temps d'exécution a aussi diminué. Cependant, pour $n$ égal à $50$, le nombre d'erreurs à diminué mais le temps d'exécution a augmenté (il est donc certainement passé par un redémarrage).
+
+\section{Conclusion}
+\emph{TabuSearch} est une meilleure heuristique que la recherche complète. En effet, elle pemet d'améliorer le temps de recherche de la solution tout en augmentant le domaine de recherche. On peut de plus contrôler différents paramètres comme le nombre d'itérations maximum et la taille de la liste Tabou.
+
+L'avantage de cette heuristique est qu'elle peut être modifiée afin de lui ajouter des conditions d'aspirations et nombre maximum de redémarrage.
+\end{document}
