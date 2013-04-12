@@ -16,14 +16,14 @@ import JaCoP.search.SelectChoicePoint;
 import JaCoP.search.SimpleSelect;
 import JaCoP.search.SmallestDomain;
 
-public class ChessQueens {
+public class ChessQueensRestart {
 
 	private final boolean debug = true;
 	private Store store;
 	private IntVar[] Q; // Main variables: Q[i] represents the column of the
 						// queen on the i-th row
 
-	public ChessQueens(int n) {
+	public ChessQueensRestart(int n) {
 		store = new Store();
 		Q = new IntVar[n];
 
@@ -87,6 +87,16 @@ public class ChessQueens {
 
 	public boolean stopConditions(int k) {
 		return k < 100;
+	}
+
+	public boolean restart(int sizeOfTabuMoves, int nbRestart) {
+		boolean res;
+		int nb = 0;
+		res = this.tabuSearch(sizeOfTabuMoves);
+		if (!res && nb < nbRestart) {
+			res = this.tabuSearch(sizeOfTabuMoves);
+		}
+		return res;
 	}
 
 	public boolean tabuSearch(int sizeOfTabuMoves) {
@@ -180,36 +190,21 @@ public class ChessQueens {
 		int nbExec = 100;
 
 		// Stock the execution time for the number of launch
-		double sumExecutionTimeCS = 0;
 		double sumExecutionTimeTS = 0;
 		double T1, T2;
 		// Stock the number of time there isn't solution
 		int nbErrorsTS = 0;
-		int nbErrorsCS = 0;
 		for (int i = 0; i < nbExec; i++) {
-			// CompleteSearch
-			// ChessQueens modelCS = new ChessQueens(n);
-			// T1 = System.currentTimeMillis();
-			// boolean resultCS = modelCS.completeSearch();
-			// if (!resultCS) {
-			// nbErrorsCS++;
-			// }
-			// T2 = System.currentTimeMillis();
-			// sumExecutionTimeCS += T2 - T1;
-
 			// TabuSearch
-			ChessQueens modelTS = new ChessQueens(n);
+			ChessQueensRestart modelTS = new ChessQueensRestart(n);
 			T1 = System.currentTimeMillis();
-			boolean resultTS = modelTS.tabuSearch(25);
+			boolean resultTS = modelTS.restart(25, 2);
 			if (!resultTS) {
 				nbErrorsTS++;
 			}
 			T2 = System.currentTimeMillis();
 			sumExecutionTimeTS += T2 - T1;
 		}
-		System.out.println("Average CS: " + sumExecutionTimeCS / nbExec);
-		System.out.println("Number of errors CS: " + nbErrorsCS);
-
 		System.out.println("Average TS: " + sumExecutionTimeTS / nbExec);
 		System.out.println("Number of errors TS: " + nbErrorsTS);
 	}

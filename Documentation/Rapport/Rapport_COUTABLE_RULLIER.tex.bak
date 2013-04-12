@@ -231,6 +231,7 @@ La dernière remarque que l'on peut faire, concerne le nombre d'erreurs. Ceux-ci
 Les conditions d'aspirations permettent d'autoriser un élément tabou s'il améliore la meilleure solution.
 
 \section{TabuSearch algorithme avec procédure de redémarrage}
+L'ajout de la procédure de redémarrage, permet de relancer l'algorithme \emph{TabuSearch} si aucune solution n'est trouvée avant que le nombre d'itérations maximum soit atteint.
 
 \end{document}
 
