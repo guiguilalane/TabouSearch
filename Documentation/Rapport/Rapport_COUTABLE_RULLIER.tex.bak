@@ -151,9 +151,9 @@ Tabu search est une heuristique de la méthode de recherche locale. Elle consist
 
 \section{N-Queens avec TabuSearch et CompleteSearch comparaison}
 
-Ces comparaisons ont été effectuées pour différentes valeurs de n (représentant le nombre de reine). L'algorithme \emph{CompleteSearch} a été exécutée avec l'heuristique \emph{Depth First Search}.
+Ces comparaisons ont été effectuées pour différentes valeurs de n (représentant le nombre de reine). L'algorithme \emph{CompleteSearch} a été exécuté avec l'heuristique \emph{Depth First Search}.
 
-Pour chaque valeur n, l'algorithme a été lancé 100 fois. Le temps présenté est la moyenne de ces 100 résultats. Le \emph{Number of errors} représente le nombre de fois où l'algorithme n'a pas trouvé de solution; dans le cas du TabuSearch ce cas peut arriver lorsque le nombre maximum de tour de boucle est atteind sans qu'aucune solution soit trouvée. \newline
+Pour chaque valeur n, l'algorithme a été lancé 100 fois. Le temps présenté est la moyenne de ces 100 résultats. Le \emph{Number of errors} représente le nombre de fois où l'algorithme n'a pas trouvé de solution; dans le cas du TabuSearch ce cas peut arriver lorsque le nombre maximum de tour de boucles est atteint sans qu'aucune solution soit trouvée. \newline
 
 \noindent
 \begin{tabular}{|c|c|c|}
@@ -225,7 +225,7 @@ On peut remarquer que plus le nombre de $n$ de reines augmente plus le temps d'e
 
 On peut cependant noter que le \emph{TabuSearch} permet de trouver la solution pour un plus grand nombre de reines. Si l'on compare les deux algorithmes, pour le même nombre de reines donnés \emph{TabuSearch} est plus rapide.
 
-La dernière remarque que l'on peut faire, concerne le nombre d'erreurs. Ceux-ci ne sont pas régulier pour le \emph{TabuSearch} car en effet tout dépend de la première solution générée aléatoirement, du nombre d'itération maximum donnés (ici nous avons choisi 100) et de la taille de la liste des éléments tabous. 
+La dernière remarque que l'on peut faire, concerne le nombre d'erreurs. Ceux-ci ne sont pas réguliers pour le \emph{TabuSearch} car en effet tout dépend de la première solution générée aléatoirement, du nombre d'itération maximum donnés (ici nous avons choisi 100) et de la taille de la liste des éléments tabous. 
 
 \section{Ajout des conditions d'aspirations}
 Les conditions d'aspirations permettent d'autoriser un élément tabou s'il améliore la meilleure solution.

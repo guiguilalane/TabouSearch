@@ -54,23 +54,6 @@ public class ChessQueens {
 	}
 
 	// Generate randomly a solution within the domains
-	// TODO: rewrite this method
-	// public int[] generateSolution(IntDomain[] domains) {
-	// Random rand = new Random();
-	// int[] solution = new int[domains.length];
-	// for (int i=0; i<domains.length; ++i) {
-	// ValueEnumeration values = domains[i].valueEnumeration();
-	// int r = rand.nextInt(domains[i].getSize()); // 0 .. getSize()-1
-	// for (int j=0; j<=r; ++j) {
-	//
-	// solution[i] = values.nextElement(); // only the r-th is relevant
-	// }
-	// System.out.println("\t\tSolution : " + solution[i]);
-	// }
-	// return solution;
-	// }
-
-	// Generate randomly a solution within the domains
 	public int[] generateSolution(IntDomain[] domains) {
 		Random rand = new Random();
 		int[] solution = new int[domains.length];
@@ -84,15 +67,12 @@ public class ChessQueens {
 			}
 			ValueEnumeration values = d.valueEnumeration();
 			int r = rand.nextInt(d.getSize()); // 0 .. getSize()-1
-			// System.out.println("r : " + r);
 			int v = -1;
 			for (int j = 0; j <= r; ++j) {
 				v = values.nextElement(); // Only the r-th is relevant
-				// System.out.println("\tvalues : " + v);
 				solution[i] = v;
 			}
 			usedSol.add(v);
-			// System.out.println("\t\tSolution : " + solution[i]);
 		}
 		return solution;
 	}
@@ -109,7 +89,6 @@ public class ChessQueens {
 		return k < 100;
 	}
 
-	// Main algorithm... to be completed
 	public boolean tabuSearch(int sizeOfTabuMoves) {
 
 		double T1, T2, T;
