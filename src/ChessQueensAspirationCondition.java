@@ -236,7 +236,7 @@ public class ChessQueensAspirationCondition {
 	}
 
 	public static void main(String[] args) {
-		final int n = 100;
+		final int n = 300;
 		boolean result = true;
 		ChessQueensAspirationCondition model = new ChessQueensAspirationCondition(
 				n);
